@@ -1,0 +1,25 @@
+{
+  "prompt": "((highest quality)),(Ultra-high resolution),(Very detailed),(Detailed Description),((The best CG)),(A masterpiece),Ultra-precise art,amazing drawing art,(Fantasy art with intricate detail:1.5), Shining constellations, Wandering with sin engraved in my mind",
+  "negative_prompt": "photo, deformed, black and white, realism, disfigured, low contrast, japaness clothes,photo,photography,3D model,long neck,bad-hands-5,(worst quality, low quality:1.4),ng_deepnegative_v1_75t,easynegative,bad-artist,bad face,bad anatomy,bad proportions,bad perspective,multiple views,mutated hands and fingers,interlocked fingers,twisted fingers,excessively bent fingers,more than five fingers,lowres,bad hands,text,error,missing fingers,extra digit,fewer digits,cropped,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username,blurry,artist name,low quality lowres multiple breasts,low quality lowres mutated hands and fingers,more than two arms,more than two hands,more than two legs,more than two feet, BadDream-SDXL, FastNegativeV2-SDXL",
+  "styles": [
+    "(Very detailed)"
+  ],
+  "seed": 412491964,
+  "sampler_name": "DPM++ 2M",
+  "scheduler": "Automatic",
+  "batch_size": 1,
+  "batch_count": 1,
+  "steps": 50,
+  "cfg_scale": 7.0,
+  "width": 724,
+  "height": 524,
+  "denoising_strength": 0.7,
+  "override_settings_restore_afterwards": true,
+  "enable_hr": true,
+  "hr_checkpoint_name": "artio_xlV1",
+  "hr_upscaler": "Latent",
+  "hr_scale": 2.0,
+  "hr_sampler_name": "DPM++ 2M",
+  "hr_scheduler": "Automatic",
+  "script_args": []
+}
