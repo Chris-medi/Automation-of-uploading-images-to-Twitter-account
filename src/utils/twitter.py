@@ -24,6 +24,6 @@ def postTweet(status,filename):
     return tweet
   except Exception as e:
     print(e)
-    return None
+
 
 postTweet("Explore pixel art magic: Futuristic sunset cyberpunk scene 🌅🎮 #PixelArt","output_images/image_51821335-04ce-4eb1-8477-9cc47eabb9dc.png")

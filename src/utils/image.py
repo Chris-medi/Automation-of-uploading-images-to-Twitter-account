@@ -1,6 +1,5 @@
 import orjson
 import requests
-import requests
 import io
 import base64
 from PIL import Image, PngImagePlugin

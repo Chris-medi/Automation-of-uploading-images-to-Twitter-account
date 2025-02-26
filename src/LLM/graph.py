@@ -1,47 +1,64 @@
-from langgraph.checkpoint.memory import MemorySaver
 
-from typing import Annotated
+from operator import itemgetter
 
+import orjson
+from typing import Literal
 from typing_extensions import TypedDict
 
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, START, END
-from langgraph.graph.message import add_messages
-from langgraph.prebuilt import ToolNode, tools_condition
 
-from langgraph.types import Command, interrupt
+from pydantic import ValidationError
 
-from langchain_ollama import ChatOllama
+from src.LLM.ollama import generatedStatus, generatePromptToCreateImage, \
+refineAndEstructuredPrompt
 
+class State(TypedDict):
+  idea: str
+  prompt: str
+  status: str
 
-class MessagesState(TypedDict):
-  messages: Annotated[list, add_messages]
 
 memory = MemorySaver()
 
 
-llm = ChatOllama(
-  model="llama3.2:3b",
-  base_url="192.168.1.9:11434",
-  # other params ...
-)
+async def createInitialIdea(state: State):
+  prompt_step_one = await generatedStatus(state['idea'])
+  status, prompt = itemgetter('status','prompt')(orjson.loads(prompt_step_one))
+  return {"prompt": prompt, "status": status}
 
-async def chatbot(state: MessagesState):
-    response = await model.ainvoke(state["messages"])
-    return {"messages": response}
+async def generateIdea(state: State):
+  response = await  generatePromptToCreateImage(state['prompt'])
+  return {"prompt": response}
 
-graph_builder = StateGraph(MessagesState)
+async def refineIdea(state: State):
+  try:
+    response = await refineAndEstructuredPrompt(state['prompt'])
+  except ValidationError :
+    return "Error"
+  return {"prompt": response.model_dump()}
 
-graph_builder.add_node("chatbot", chatbot)
+async def conditionNodeRefinement(state: State) -> Literal["createInitialIdea", END]:
+  if state['prompt'] == "Error":
+    print('El modelo no genero correctamente la respuesta')
+    return "createInitialIdea"
+  else:
+    print('El modelo genero correctamente la respuesta')
+    return END
+
+graph_builder = StateGraph(State)
+
+graph_builder.add_node("createInitialIdea", createInitialIdea)
+graph_builder.add_node("generateIdea", generateIdea)
+graph_builder.add_node("refineIdea", refineIdea)
 
 #
-graph_builder.add_edge(START, "chatbot")
+graph_builder.add_edge(START, "createInitialIdea")
+graph_builder.add_edge("createInitialIdea", "generateIdea")
+graph_builder.add_edge("generateIdea", "refineIdea")
 
-graph_builder.add_edge("chatbot", END)
+graph_builder.add_conditional_edges("refineIdea", conditionNodeRefinement)
+
 
 graph = graph_builder.compile(checkpointer=memory)
 
-
-# # Async invocation:
-# output = await app.ainvoke({"messages": input_messages}, config)
-# output["messages"][-1].pretty_print()
