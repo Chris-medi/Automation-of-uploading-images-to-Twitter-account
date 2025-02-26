@@ -1,4 +1,4 @@
-```markdown:
+
 # Twitter Image Upload Automation
 
 An automated system for generating and uploading AI-generated images to Twitter using local LLM models.
@@ -150,15 +150,15 @@ Common scheduling patterns:
 This project is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.
 
 For more information about GPL-2.0, visit: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-```
+
 
 And here's the GPLv2 license file:
 
-```plaintext:\\wsl.localhost\Ubuntu\home\chriss\project\automation-account-x\LICENSE
+```plaintext:
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
- Copyright (C) 2024 Chris-medi
+ Copyright (C) 2025 Chris-medi
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -175,5 +175,3 @@ And here's the GPLv2 license file:
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ```
 
-
-I'll add information about scheduling tasks with cron jobs to your README.
